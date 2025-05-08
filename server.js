@@ -4,7 +4,7 @@ const app = express();
 require("dotenv").config();
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
-const cors = require("cors");
+
 
 // Import middlewares et routes
 const usersCtrl = require('./controllers/users.controllers');
@@ -16,7 +16,13 @@ const catwaysRoutes = require('./routes/catways.routes');
 connectDB();
 
 // Middlewares globaux
-app.use(cors()); // Autoriser les requêtes cross-origin depuis le front Vue.js
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'https://aesthetic-lily-a6e69e.netlify.app',
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
