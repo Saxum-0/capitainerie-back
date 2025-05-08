@@ -2,6 +2,7 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
+console.log("🔍 MONGO_URI =", process.env.MONGO_URI);
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
