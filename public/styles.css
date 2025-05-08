@@ -1,0 +1,97 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fef6e4;
+  color: #001858;
+  margin: 0;
+  padding: 20px;
+}
+
+h1, h2, h3 {
+  color: #f4a261; /* Orange pastel */
+}
+
+a {
+  color: #f4a261;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+form {
+  background-color: #ffffff;
+  border: 1px solid #f3d2c1;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+input, textarea, select, button {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #f3d2c1;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #8bd3dd; /* Vert pastel */
+  color: #001858;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #f4a261; /* Orange pastel au hover */
+  color: white;
+}
+
+nav {
+  margin-bottom: 20px;
+  background-color: #f3d2c1;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+nav ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav a {
+  font-weight: bold;
+  color: #001858;
+}
+
+nav a:hover {
+  color: #f4a261;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #f3d2c1;
+  margin: 20px 0;
+}
