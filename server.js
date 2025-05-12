@@ -11,7 +11,7 @@ connectDB();
 const cors = require('cors');
 
 const corsOptions = {
-  origin: 'https://aesthetic-lily-a6e69e.netlify.app',
+  origin: 'capitainerie-back.railway.internal',
   credentials: true,
 };
 app.use(cors(corsOptions));
