@@ -34,23 +34,16 @@ app.use((req, res, next) => {
 });
 
 // === Routes publiques ===
-app.get("/", (req, res) => {
-  res.status(200).json({
-    message: "Bienvenue sur l’API du Port de Plaisance de Russell",
-    routes: [
-      "POST /login",
-      "POST /users",
-      "GET /catways",
-      "..."
-    ]
-  });
-});
+app.post("/login", usersCtrl.login); // Seule route non protégée
 
-app.post("/login", usersCtrl.login);
+// === Middleware d'authentification
+app.use(checkJWT); // ⛔ Tout ce qui suit est sécurisé
 
-// === Routes protégées ===
-app.use("/", checkJWT, usersRoutes);
-app.use("/", catwaysRoutes); // contient aussi les routes /catways/:id/reservations
+// === Routes sécurisées
+app.use('/users', usersRoutes);       // ✅ Accès réservé aux admins connectés
+app.use('/catways', catwaysRoutes);   // ✅ idem
+app.use('/catways', reservationsRoutes); // si séparé
+
 
 // Lancement serveur
 const port = process.env.PORT || 3001;

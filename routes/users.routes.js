@@ -8,9 +8,10 @@ const checkJWT = require('../middlewares/checkJWT');
 router.post('/login', usersCtrl.login);
 
 // 🔹 API REST - Utilisateurs
-router.post('/users', usersCtrl.createUser);                 // Créer un utilisateur
-router.put('/users/:id', checkJWT, usersCtrl.updateUser);    // Modifier un utilisateur
-router.delete('/users/:id', checkJWT, usersCtrl.deleteUser); // Supprimer un utilisateur
+router.post('/', usersCtrl.createUser);      // POST /users
+router.put('/:id', usersCtrl.updateUser);    // PUT /users/:id
+router.delete('/:id', usersCtrl.deleteUser); // DELETE /users/:id
+
 
 module.exports = router;
 
