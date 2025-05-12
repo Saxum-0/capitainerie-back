@@ -1,5 +1,6 @@
 // === controllers/catways.controllers.js ===
 const Catway = require('../models/catway');
+const mongoose = require('mongoose');
 
 exports.getAllCatways = async (req, res) => {
   try {
