@@ -4,17 +4,10 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 
-// Import middlewares et routes
-const usersCtrl = require('./controllers/users.controllers');
-const checkJWT = require('./middlewares/checkJWT');
-const usersRoutes = require('./routes/users.routes');
-const catwaysRoutes = require('./routes/catways.routes');
-const reservationsRoutes = require('./routes/reservations.routes');
-
 // Connexion à MongoDB
 connectDB();
 
-// Middleware CORS
+// Middlewares
 const cors = require('cors');
 
 const corsOptions = {
@@ -22,11 +15,8 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Pré-vol OPTIONS
 
-// Gérer les requêtes preflight OPTIONS
-app.options('*', cors(corsOptions));
-
-// ✅ Ajouter les bons headers
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://aesthetic-lily-a6e69e.netlify.app");
   res.header("Access-Control-Allow-Credentials", "true");
@@ -35,26 +25,31 @@ app.use((req, res, next) => {
   next();
 });
 
-// Autres middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Log des requêtes
+// Logger
 app.use((req, res, next) => {
   console.log(`🧭 [${req.method}] ${req.originalUrl}`);
   next();
 });
 
-// === Routes publiques ===
+// === ROUTES ===
+
+// Contrôleur login directement ici (publique)
+const usersCtrl = require('./controllers/users.controllers');
 app.post("/login", usersCtrl.login);
 
-// === Middleware d'authentification ===
+// Middleware d'authentification pour toutes les routes suivantes
+const checkJWT = require('./middlewares/checkJWT');
 app.use(checkJWT);
 
-// === Routes protégées ===
+// Routes protégées
+const usersRoutes = require('./routes/users.routes');
+const catwaysRoutes = require('./routes/catways.routes');
 app.use('/users', usersRoutes);
-app.use('/catways', catwaysRoutes);
+app.use('/catways', catwaysRoutes); // Contient aussi les sous-routes /catways/:id/reservations
 
 // Lancer le serveur
 const port = process.env.PORT || 3001;
