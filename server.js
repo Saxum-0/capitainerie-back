@@ -55,7 +55,6 @@ app.use(checkJWT);
 // === Routes protégées ===
 app.use('/users', usersRoutes);
 app.use('/catways', catwaysRoutes);
-app.use('/catways', reservationsRoutes); // sous-routes REST imbriquées
 
 // Lancer le serveur
 const port = process.env.PORT || 3001;
