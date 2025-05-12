@@ -49,8 +49,8 @@ app.get("/", (req, res) => {
 app.post("/login", usersCtrl.login);
 
 // === Routes protégées ===
-app.use("/users", checkJWT, usersRoutes);
-app.use("/catways", catwaysRoutes); // contient aussi les routes /catways/:id/reservations
+app.use("/", checkJWT, usersRoutes);
+app.use("/", catwaysRoutes); // contient aussi les routes /catways/:id/reservations
 
 // Lancement serveur
 const port = process.env.PORT || 3001;
