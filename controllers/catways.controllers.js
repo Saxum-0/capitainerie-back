@@ -12,7 +12,8 @@ exports.getAllCatways = async (req, res) => {
 
 exports.getCatwayById = async (req, res) => {
   try {
-    const catway = await Catway.findById(req.params.id);
+    const res = await api.get(`/catways/${catwayForm.value.id}`, { headers });
+    catwayDetails.value = res.data;
     if (!catway) return res.status(404).json({ error: 'Catway not found' });
     res.status(200).json(catway);
   } catch (err) {
