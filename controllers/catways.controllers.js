@@ -11,13 +11,24 @@ exports.getAllCatways = async (req, res) => {
 };
 
 exports.getCatwayById = async (req, res) => {
+  const id = req.params.id;
+
+  // 🔐 Sécurité : ID bien formé ?
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'ID invalide' });
+  }
+
   try {
-    const res = await api.get(`/catways/${catwayForm.value.id}`, { headers });
-    catwayDetails.value = res.data;
-    if (!catway) return res.status(404).json({ error: 'Catway not found' });
-    res.status(200).json(catway);
+    const catway = await Catway.findById(id); // ✅ C'est ici qu'on interroge MongoDB
+
+    if (!catway) {
+      return res.status(404).json({ error: 'Catway non trouvé' });
+    }
+
+    res.status(200).json(catway); // ✅ On renvoie le catway trouvé
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('❌ Erreur getCatwayById:', err.message);
+    res.status(500).json({ error: 'Erreur serveur' });
   }
 };
 
