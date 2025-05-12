@@ -13,6 +13,7 @@ router.patch('/:id', catwaysCtrl.updateCatway);         // PATCH /catways/:id
 router.delete('/:id', catwaysCtrl.deleteCatway);        // DELETE /catways/:id
 
 // ✅ Sous-routes RESTful pour les réservations liées à un catway
-router.use('/:id/reservations', reservationsRoutes);    // e.g. /catways/:id/reservations
+router.use('/catways/:id/reservations', reservationsRoutes);
+   // e.g. /catways/:id/reservations
 
 module.exports = router;
