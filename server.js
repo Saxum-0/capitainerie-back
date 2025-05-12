@@ -11,6 +11,8 @@ const usersCtrl = require('./controllers/users.controllers');
 const checkJWT = require('./middlewares/checkJWT');
 const usersRoutes = require('./routes/users.routes');
 const catwaysRoutes = require('./routes/catways.routes');
+const reservationsRoutes = require('./routes/reservations.routes');
+
 
 // Connexion à MongoDB
 connectDB();
