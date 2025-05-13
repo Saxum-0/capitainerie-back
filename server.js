@@ -11,6 +11,8 @@ const cookieParser = require("cookie-parser");
 // Connexion à MongoDB
 console.log("👉 MONGO_URI =", process.env.MONGO_URI);
 console.log("👉 PORT =", process.env.PORT);
+console.log("📦 Toutes les variables env visibles :", process.env);
+
 connectDB();
 
 
