@@ -55,9 +55,10 @@ app.use(checkJWT);
 // Routes protégées
 const usersRoutes = require('./routes/users.routes');
 const catwaysRoutes = require('./routes/catways.routes');
+const reservationsRoutes = require('./routes/reservations.routes');
 app.use('/users', usersRoutes);
-app.use('/catways', catwaysRoutes); // Inclut /catways/:id/reservations
-
+app.use('/catways', catwaysRoutes); 
+app.use('/reservations', reservationsRoutes);
 // Lancer le serveur
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
