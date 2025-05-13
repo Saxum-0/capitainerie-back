@@ -39,6 +39,7 @@ app.use(cookieParser());
 // Logger
 app.use((req, res, next) => {
   console.log(`🧭 [${req.method}] ${req.originalUrl}`);
+  console.log("🌐 Origin autorisée :", req.headers.origin);
   next();
 });
 
