@@ -1,39 +1,37 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const connectDB = require("./config/db");
+
 // Charger .env uniquement en local
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const connectDB = require("./config/db");
-const cookieParser = require("cookie-parser");
-
 // Connexion à MongoDB
-console.log("👉 MONGO_URI =", process.env.MONGO_URI);
-console.log("👉 PORT =", process.env.PORT);
-console.log("📦 Toutes les variables env visibles :", process.env);
-
 connectDB();
 
-
-// Middlewares
-const cors = require('cors');
+// === CORS ===
+const allowedOrigins = [
+  "https://aesthetic-lily-a6e69e.netlify.app",
+  "http://localhost:5173" // utile pour développement local
+];
 
 const corsOptions = {
-  origin: 'capitainerie-back.railway.internal',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
+
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Pré-vol OPTIONS
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://aesthetic-lily-a6e69e.netlify.app");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  next();
-});
-
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -46,11 +44,11 @@ app.use((req, res, next) => {
 
 // === ROUTES ===
 
-// Contrôleur login directement ici (publique)
+// Route publique : login
 const usersCtrl = require('./controllers/users.controllers');
 app.post("/login", usersCtrl.login);
 
-// Middleware d'authentification pour toutes les routes suivantes
+// Middleware d'authentification pour les routes protégées
 const checkJWT = require('./middlewares/checkJWT');
 app.use(checkJWT);
 
@@ -58,11 +56,10 @@ app.use(checkJWT);
 const usersRoutes = require('./routes/users.routes');
 const catwaysRoutes = require('./routes/catways.routes');
 app.use('/users', usersRoutes);
-app.use('/catways', catwaysRoutes); // Contient aussi les sous-routes /catways/:id/reservations
+app.use('/catways', catwaysRoutes); // Inclut /catways/:id/reservations
 
 // Lancer le serveur
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
-  console.log(`🚀 Serveur en ligne sur http://localhost:${port}`);
+  console.log(`✅ ONLINE http://localhost:${port}`);
 });
-
