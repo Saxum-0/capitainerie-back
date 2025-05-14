@@ -13,7 +13,7 @@ describe('Catways API', () => {
     chai
       .request(app)
       .post('/login')
-      .send({ email: 'admin@example.com', password: 'admin123' }) // 👈 adapte ça selon ton compte
+      .send({ email: 'admin@example.com', password: 'admin1234' })
       .end((err, res) => {
         expect(res).to.have.status(200);
         token = res.body.token;
@@ -25,7 +25,7 @@ describe('Catways API', () => {
     chai
       .request(app)
       .get('/catways')
-      .set('Authorization', `Bearer ${token}`) // 👈 ajoute le token ici
+      .set('Authorization', `Bearer ${token}`) 
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
