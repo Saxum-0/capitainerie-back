@@ -65,3 +65,13 @@ const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`✅ ONLINE http://localhost:${port}`);
 });
+
+// ... tout ton code Express
+
+app.listen(port, () => {
+  console.log(`✅ ONLINE http://localhost:${port}`);
+});
+
+// ✅ Ajoute cette ligne :
+
+module.exports = app;
