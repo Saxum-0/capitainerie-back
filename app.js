@@ -44,5 +44,7 @@ if (process.env.NODE_ENV === "test") {
 const checkJWT = require('./middlewares/checkJWT');
 app.use('/users', checkJWT, require('./routes/users.routes'));
 app.use('/catways', checkJWT, require('./routes/catways.routes'));
+app.use('/reservations', checkJWT, require('./routes/reservations.routes'));
+
 
 module.exports = app;
