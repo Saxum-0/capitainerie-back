@@ -1,0 +1,37 @@
+[
+  {
+    "catwayNumber": 1,
+    "clientName": "Jean Martin",
+    "boatName": "L'Étoile du Sud",
+    "checkIn": "2025-06-01",
+    "checkOut": "2025-06-10"
+  },
+  {
+    "catwayNumber": 2,
+    "clientName": "Claire Dubois",
+    "boatName": "La Brise Marine",
+    "checkIn": "2025-06-05",
+    "checkOut": "2025-06-15"
+  },
+  {
+    "catwayNumber": 3,
+    "clientName": "Paul Leroy",
+    "boatName": "Océanis",
+    "checkIn": "2025-06-08",
+    "checkOut": "2025-06-12"
+  },
+  {
+    "catwayNumber": 4,
+    "clientName": "Anna Gomez",
+    "boatName": "La Mistralienne",
+    "checkIn": "2025-06-02",
+    "checkOut": "2025-06-07"
+  },
+  {
+    "catwayNumber": 5,
+    "clientName": "Louis Petit",
+    "boatName": "Cap au Nord",
+    "checkIn": "2025-06-11",
+    "checkOut": "2025-06-20"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "catwayNumber": 1,
+    "type": "long",
+    "catwayState": "en bon état"
+  },
+  {
+    "catwayNumber": 2,
+    "type": "short",
+    "catwayState": "à rénover"
+  },
+  {
+    "catwayNumber": 3,
+    "type": "long",
+    "catwayState": "neuf"
+  },
+  {
+    "catwayNumber": 4,
+    "type": "short",
+    "catwayState": "occupé"
+  },
+  {
+    "catwayNumber": 5,
+    "type": "long",
+    "catwayState": "libre"
+  }
+]
