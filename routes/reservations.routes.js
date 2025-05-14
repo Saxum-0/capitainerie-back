@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
 
     // On récupère le catway via son ID
     const Catway = require('../models/catway');
-    const catway = await Catway.findById(catwayId);
+    const catway = await Catway.findOne({ catwayNumber: Number(req.params.catwayId) });
     if (!catway) return res.status(404).json({ message: 'Catway introuvable' });
 
     // Puis on utilise le catwayNumber pour trouver les réservations
