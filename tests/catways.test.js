@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 let token;
 let createdCatwayId;
 
- before(async () => {
+ after(async () => {
     await Catways.deleteOne({ catwayNumber: 777 });
   });
 
