@@ -3,7 +3,7 @@ const router = express.Router();
 const catwaysCtrl = require('../controllers/catways.controllers');
 const reservationsRoutes = require('./reservations.routes');
 
-// Routes REST principales pour les catways
+// Routes REST  catways
 router.get('/', catwaysCtrl.getAllCatways);              // GET /catways
 router.get('/:id', catwaysCtrl.getCatwayById);           // GET /catways/:id
 router.post('/', catwaysCtrl.createCatway);              // POST /catways
@@ -11,9 +11,9 @@ router.put('/:id', catwaysCtrl.replaceCatway);           // PUT /catways/:id
 router.patch('/:id', catwaysCtrl.updateCatway);          // PATCH /catways/:id
 router.delete('/:id', catwaysCtrl.deleteCatway);         // DELETE /catways/:id
 
-// Sous-routes pour les réservations liées à un catway
+
 router.use('/:catwayId/reservations', reservationsRoutes);
- // ex: /catways/1/reservations
+
 
 module.exports = router;
 

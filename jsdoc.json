@@ -1,0 +1,10 @@
+{
+  "source": {
+    "include": ["controllers", "middlewares"],
+    "includePattern": ".js$"
+  },
+  "opts": {
+    "destination": "./docs",
+    "recurse": true
+  }
+}

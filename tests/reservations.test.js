@@ -9,17 +9,17 @@ describe('Reservations API', () => {
   let token;
   let catwayId;
   let reservationId;
-  const catwayNumber = 777; // Le champ attendu par le modèle Reservation
+  const catwayNumber = 777; 
 
   before(async () => {
-    // Créer un utilisateur
+    
     await chai.request(app).post('/users').send({
       name: 'Test Reservation',
       email: 'test.reservation@example.com',
       password: 'password123'
     });
 
-    // Connexion
+   
     const loginRes = await chai.request(app).post('/login').send({
       email: 'test.reservation@example.com',
       password: 'password123'
@@ -27,13 +27,12 @@ describe('Reservations API', () => {
 
     token = loginRes.body.token;
 
-    // Créer un catway pour l'utiliser dans la réservation
     const catwayRes = await chai.request(app)
       .post('/catways')
       .set('Authorization', `Bearer ${token}`)
       .send({ catwayNumber, type: 'long', catwayState: 'libre' });
 
-    catwayId = catwayRes.body._id; // On récupère l'ObjectId pour l'URL
+    catwayId = catwayRes.body._id;
   });
 
   it('POST /catways/:id/reservations → créer une réservation', async () => {
@@ -42,7 +41,7 @@ describe('Reservations API', () => {
       .post(`/catways/${catwayId}/reservations`)
       .set('Authorization', `Bearer ${token}`)
       .send({
-        catwayNumber, // ici on envoie bien le nombre
+        catwayNumber, 
         clientName: 'Testeur',
         boatName: 'Bateau Fantôme',
         checkIn: '2025-06-21',

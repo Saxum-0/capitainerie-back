@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
-const User = require('../models/user'); // <- pour le nettoyage
+const User = require('../models/user'); 
 const { expect } = chai;
 
 chai.use(chaiHttp);
@@ -10,7 +10,7 @@ describe('Users API', () => {
   let userId;
   let token;
 
-  // Email unique pour éviter les conflits en base
+
   const testEmail = `testuser_${Date.now()}@example.com`;
 
   const testUser = {
@@ -19,7 +19,7 @@ describe('Users API', () => {
     password: 'password123'
   };
 
-  // Nettoyer avant le test (par sécurité)
+  
   before(async () => {
     await User.deleteOne({ email: testEmail });
   });
@@ -55,7 +55,7 @@ describe('Users API', () => {
       .send({ name: 'Updated User' })
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body.message).to.include('modifié');
+        expect(res.body.message).to.include('updated');
         done();
       });
   });
@@ -66,7 +66,7 @@ describe('Users API', () => {
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body.message).to.include('supprimé');
+        expect(res.body.message).to.include('deleted');
         done();
       });
   });

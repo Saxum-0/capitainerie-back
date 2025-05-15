@@ -4,12 +4,12 @@ const router = express.Router({ mergeParams: true });
 const Reservation = require('../models/reservation');
 const Catway = require('../models/catway');
 
-// Utilitaire pour distinguer un ObjectId d'un numéro
+
 function isObjectId(str) {
   return /^[0-9a-fA-F]{24}$/.test(str);
 }
 
-// ✅ POST /catways/:catwayId/reservations → créer une réservation
+// POST /catways/:catwayId/reservations
 router.post('/', async (req, res) => {
   try {
     const { clientName, boatName, checkIn, checkOut } = req.body;
@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ✅ GET /catways/:catwayId/reservations → retourner les réservations du catway
+//  GET /catways/:catwayId/reservations
 router.get('/', async (req, res) => {
   try {
     const { catwayId } = req.params;
@@ -70,7 +70,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ GET /catways/:catwayId/reservations/:idReservation → obtenir une réservation
+// GET /catways/:catwayId/reservations/:idReservation 
 router.get('/:idReservation', async (req, res) => {
   try {
     const reservation = await Reservation.findById(req.params.idReservation);
@@ -82,7 +82,7 @@ router.get('/:idReservation', async (req, res) => {
   }
 });
 
-// ✅ DELETE /catways/:catwayId/reservations/:idReservation → supprimer une réservation
+// DELETE /catways/:catwayId/reservations/:idReservation 
 router.delete('/:idReservation', async (req, res) => {
   try {
     const deleted = await Reservation.findByIdAndDelete(req.params.idReservation);

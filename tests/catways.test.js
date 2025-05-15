@@ -15,14 +15,14 @@ let createdCatwayId;
 
 describe('Catways API', () => {
   before(async () => {
-    // Créer un utilisateur
+   
     await chai.request(app).post('/users').send({
       name: 'Testeur',
       email: 'test@api.fr',
       password: '123456'
     });
 
-    // Se connecter
+   
     const res = await chai.request(app).post('/login').send({
       email: 'test@api.fr',
       password: '123456'

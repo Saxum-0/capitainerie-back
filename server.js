@@ -6,26 +6,27 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
-  console.log(`✅ Serveur lancé sur le port ${PORT}`);
+  console.log(`✅ Server started on port ${PORT}`);
 
+  // Automatically run tests when not in production
   if (process.env.NODE_ENV !== "production") {
-    console.log("Lancement des tests...");
+    console.log("Running tests...");
 
     const child = exec("npm run test");
 
-    // tests
+    // Output from tests
     child.stdout.on("data", (data) => {
       console.log(data.toString());
     });
 
-    // erreur
+    // Error during tests
     child.stderr.on("data", (data) => {
-      console.error("Erreur test :", data.toString());
+      console.error("Test error:", data.toString());
     });
 
-    // end test
+    // Test process end
     child.on("close", (code) => {
-      console.log(`Fin des tests avec code : ${code}`);
+      console.log(`Tests finished with code: ${code}`);
     });
   }
 });

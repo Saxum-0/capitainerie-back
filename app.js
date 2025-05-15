@@ -5,11 +5,13 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 
+// Load .env
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 connectDB();
 
+// Define allowed origins for CORS
 const allowedOrigins = [
   "https://aesthetic-lily-a6e69e.netlify.app",
   "http://localhost:5173"
@@ -26,25 +28,25 @@ const corsOptions = {
   credentials: true,
 };
 
+// Middleware setup
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// === ROUTES PUBLIQUES ===
+// === PUBLIC ROUTES ===
 const usersCtrl = require('./controllers/users.controllers');
 app.post("/login", usersCtrl.login);
 
-// ✅ Ajoute ceci pour permettre la création d'utilisateur pendant les tests
+// Allow user creation during tests
 if (process.env.NODE_ENV === "test") {
   app.post("/users", usersCtrl.createUser);
 }
 
-// === ROUTES PROTÉGÉES ===
+// === PROTECTED ROUTES ===
 const checkJWT = require('./middlewares/checkJWT');
 app.use('/users', checkJWT, require('./routes/users.routes'));
 app.use('/catways', checkJWT, require('./routes/catways.routes'));
 app.use('/reservations', checkJWT, require('./routes/reservations.routes'));
-
 
 module.exports = app;
