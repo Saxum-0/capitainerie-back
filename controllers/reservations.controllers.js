@@ -1,10 +1,14 @@
 const Reservation = require('../models/reservation');
 
-// Créer une réservation pour un catway spécifique
+/**
+ * Create a reservation for a specific catway.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 const createReservation = async (req, res) => {
   try {
     const { clientName, boatName, checkIn, checkOut } = req.body;
-    const catwayNumber = req.params.id; // récupéré depuis /catways/:id/reservations
+    const catwayNumber = req.params.id; // Retrieved from /catways/:id/reservations
 
     const newReservation = await Reservation.create({
       catwayNumber,
@@ -20,23 +24,31 @@ const createReservation = async (req, res) => {
   }
 };
 
-// Supprimer une réservation
+/**
+ * Delete a reservation by its ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 const deleteReservation = async (req, res) => {
   try {
     const { idReservation } = req.params;
     const deleted = await Reservation.findByIdAndDelete(idReservation);
-    if (!deleted) return res.status(404).json({ error: 'Réservation introuvable' });
+    if (!deleted) return res.status(404).json({ error: 'Reservation not found' });
 
-    res.status(200).json({ message: 'Réservation supprimée' });
+    res.status(200).json({ message: 'Reservation deleted' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Lister les réservations d’un catway spécifique
+/**
+ * List all reservations for a specific catway.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 const listReservations = async (req, res) => {
   try {
-    const { id } = req.params; // id du catway
+    const { id } = req.params; // Catway ID
     const reservations = await Reservation.find({ catwayNumber: id });
 
     res.status(200).json(reservations);
@@ -45,12 +57,16 @@ const listReservations = async (req, res) => {
   }
 };
 
-// Détail d'une réservation
+/**
+ * Get details of a single reservation by its ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 const getReservation = async (req, res) => {
   try {
     const { idReservation } = req.params;
     const reservation = await Reservation.findById(idReservation);
-    if (!reservation) return res.status(404).json({ error: 'Réservation non trouvée' });
+    if (!reservation) return res.status(404).json({ error: 'Reservation not found' });
 
     res.status(200).json(reservation);
   } catch (error) {

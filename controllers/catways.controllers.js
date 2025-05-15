@@ -1,7 +1,11 @@
-// === controllers/catways.controllers.js ===
 const Catway = require('../models/catway');
 const mongoose = require('mongoose');
 
+/**
+ * Get all catways from the database.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.getAllCatways = async (req, res) => {
   try {
     const catways = await Catway.find();
@@ -11,28 +15,36 @@ exports.getAllCatways = async (req, res) => {
   }
 };
 
+/**
+ * Get a single catway by its ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.getCatwayById = async (req, res) => {
   const id = req.params.id;
 
-  // 🔐 Sécurité : ID bien formé ?
+  // Check if the ID is a valid MongoDB ObjectId
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: 'ID invalide' });
+    return res.status(400).json({ error: 'Invalid ID' });
   }
 
   try {
-    const catway = await Catway.findById(id); // ✅ C'est ici qu'on interroge MongoDB
-
+    const catway = await Catway.findById(id);
     if (!catway) {
-      return res.status(404).json({ error: 'Catway non trouvé' });
+      return res.status(404).json({ error: 'Catway not found' });
     }
-
-    res.status(200).json(catway); // ✅ On renvoie le catway trouvé
+    res.status(200).json(catway);
   } catch (err) {
-    console.error('❌ Erreur getCatwayById:', err.message);
-    res.status(500).json({ error: 'Erreur serveur' });
+    console.error('❌ Error in getCatwayById:', err.message);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
+/**
+ * Create a new catway.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.createCatway = async (req, res) => {
   try {
     const catway = await Catway.create(req.body);
@@ -42,7 +54,11 @@ exports.createCatway = async (req, res) => {
   }
 };
 
-// Remplace complètement un catway (PUT)
+/**
+ * Replace an entire catway document (PUT).
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.replaceCatway = async (req, res) => {
   try {
     const replaced = await Catway.findOneAndReplace(
@@ -57,7 +73,11 @@ exports.replaceCatway = async (req, res) => {
   }
 };
 
-// Met à jour partiellement un catway (PATCH)
+/**
+ * Partially update a catway document (PATCH).
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.updateCatway = async (req, res) => {
   try {
     const updated = await Catway.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -68,6 +88,11 @@ exports.updateCatway = async (req, res) => {
   }
 };
 
+/**
+ * Delete a catway by its ID.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.deleteCatway = async (req, res) => {
   try {
     const deleted = await Catway.findByIdAndDelete(req.params.id);

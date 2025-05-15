@@ -1,8 +1,16 @@
 const jwt = require('jsonwebtoken');
 
-// Middleware d'authentification
+/**
+ * JWT authentication middleware.
+ * Checks for a valid token in the Authorization header and decodes it.
+ * Skips verification if NODE_ENV is set to "test".
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ */
 module.exports = (req, res, next) => {
-  // ✅ Bypass pour les tests unitaires
+  // ✅ Bypass token check for unit testing
   if (process.env.NODE_ENV === 'test') {
     return next();
   }
@@ -10,7 +18,7 @@ module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Token manquant ou format invalide' });
+    return res.status(401).json({ error: 'Missing or invalid token format' });
   }
 
   const token = authHeader.split(' ')[1];
@@ -20,7 +28,6 @@ module.exports = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(403).json({ error: 'Token invalide ou expiré' });
+    return res.status(403).json({ error: 'Invalid or expired token' });
   }
 };
-
