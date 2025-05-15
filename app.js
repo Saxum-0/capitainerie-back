@@ -5,6 +5,11 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 
+app.get("/", (req, res) => {
+  res.send("🚤 API Capitainerie de Russell en ligne !");
+});
+
+
 // Load .env
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
