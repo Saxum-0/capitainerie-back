@@ -1,19 +1,13 @@
-// server.js
 const app = require("./app");
-const port = process.env.PORT || 3001;
-app.listen(port, () => {
-  console.log(` ONLINE ✅  ${port}`);
-});
-
-// server.js
-const http = require('http');
+const http = require("http");
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3000;
+
 server.listen(PORT, () => {
   console.log(`✅ Serveur lancé sur le port ${PORT}`);
 
-  // Lancer les tests automatiquement
+  // Lancer les tests automatiquement sauf en production
   if (process.env.NODE_ENV !== 'production') {
     const { exec } = require('child_process');
     console.log('📦 Lancement des tests...');
