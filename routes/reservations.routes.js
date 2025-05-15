@@ -2,14 +2,20 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 const Reservation = require('../models/reservation');
+const Catway = require('../models/catway');
 
 // ✅ POST /catways/:catwayId/reservations → créer une réservation
 router.post('/', async (req, res) => {
   try {
-    const { catwayNumber, clientName, boatName, checkIn, checkOut } = req.body;
+    const { clientName, boatName, checkIn, checkOut } = req.body;
 
+    // On récupère le catway à partir de l'ObjectId
+    const catway = await Catway.findById(req.params.catwayId);
+    if (!catway) return res.status(404).json({ message: 'Catway introuvable' });
+
+    // On crée la réservation avec le vrai catwayNumber (Number)
     const newReservation = new Reservation({
-      catwayNumber,
+      catwayNumber: catway.catwayNumber,
       clientName,
       boatName,
       checkIn,
@@ -27,14 +33,9 @@ router.post('/', async (req, res) => {
 // ✅ GET /catways/:catwayId/reservations → retourner les réservations du catway
 router.get('/', async (req, res) => {
   try {
-    const catwayId = req.params.catwayId;
-
-    // On récupère le catway via son ID
-    const Catway = require('../models/catway');
-    const catway = await Catway.findOne({ catwayNumber: Number(req.params.catwayId) });
+    const catway = await Catway.findById(req.params.catwayId);
     if (!catway) return res.status(404).json({ message: 'Catway introuvable' });
 
-    // Puis on utilise le catwayNumber pour trouver les réservations
     const reservations = await Reservation.find({ catwayNumber: catway.catwayNumber });
     res.status(200).json(reservations);
   } catch (err) {
@@ -42,7 +43,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 // ✅ GET /catways/:catwayId/reservations/:idReservation → obtenir une réservation
 router.get('/:idReservation', async (req, res) => {

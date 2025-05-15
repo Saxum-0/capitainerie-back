@@ -1,12 +1,17 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app'); 
+const Catways = require('../models/catway');
 const expect = chai.expect;
 
 chai.use(chaiHttp);
 
 let token;
 let createdCatwayId;
+
+ before(async () => {
+    await Catways.deleteOne({ catwayNumber: 777 });
+  });
 
 describe('Catways API', () => {
   before(async () => {
