@@ -4,16 +4,30 @@ const router = express.Router({ mergeParams: true });
 const Reservation = require('../models/reservation');
 const Catway = require('../models/catway');
 
+// Utilitaire pour distinguer un ObjectId d'un numéro
+function isObjectId(str) {
+  return /^[0-9a-fA-F]{24}$/.test(str);
+}
+
 // ✅ POST /catways/:catwayId/reservations → créer une réservation
 router.post('/', async (req, res) => {
   try {
     const { clientName, boatName, checkIn, checkOut } = req.body;
+    const { catwayId } = req.params;
 
-    // On récupère le catway à partir de l'ObjectId
-    const catway = await Catway.findById(req.params.catwayId);
+    let catway;
+    if (isObjectId(catwayId)) {
+      catway = await Catway.findById(catwayId);
+    } else {
+      const num = Number(catwayId);
+      if (isNaN(num)) {
+        return res.status(400).json({ message: 'catwayId invalide' });
+      }
+      catway = await Catway.findOne({ catwayNumber: num });
+    }
+
     if (!catway) return res.status(404).json({ message: 'Catway introuvable' });
 
-    // On crée la réservation avec le vrai catwayNumber (Number)
     const newReservation = new Reservation({
       catwayNumber: catway.catwayNumber,
       clientName,
@@ -33,7 +47,19 @@ router.post('/', async (req, res) => {
 // ✅ GET /catways/:catwayId/reservations → retourner les réservations du catway
 router.get('/', async (req, res) => {
   try {
-    const catway = await Catway.findById(req.params.catwayId);
+    const { catwayId } = req.params;
+
+    let catway;
+    if (isObjectId(catwayId)) {
+      catway = await Catway.findById(catwayId);
+    } else {
+      const num = Number(catwayId);
+      if (isNaN(num)) {
+        return res.status(400).json({ message: 'catwayId invalide' });
+      }
+      catway = await Catway.findOne({ catwayNumber: num });
+    }
+
     if (!catway) return res.status(404).json({ message: 'Catway introuvable' });
 
     const reservations = await Reservation.find({ catwayNumber: catway.catwayNumber });
